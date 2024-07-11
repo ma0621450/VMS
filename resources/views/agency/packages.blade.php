@@ -1,6 +1,5 @@
 <x-header></x-header>
 <div class="m-4">
-
     <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
         Create Packages
     </button>
@@ -25,7 +24,7 @@
 
 
 
-<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade @if ($errors->any()) show @endif" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="@if (!$errors->any()) true @else false @endif" style="@if ($errors->any()) display: block; @endif">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,52 +32,75 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form action="{{ route('agency.packages.store') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" id="exampleInputEmail1">
+                        <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+                        @error('title')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <textarea type="text" name="description" class="form-control"></textarea>
+                        <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
+                        @error('description')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="">Services</label>
                         <select name="services[]" class="form-select" multiple>
-                            {{-- <?php foreach ($services as $service): ?>
-                                <option value="<?= $service['service_id'] ?>"><?= $service['description'] ?></option>
-                            <?php endforeach; ?> --}}
+                            @foreach ($services as $service)
+                                <option value="{{ $service->service_id }}">{{ $service->service }}</option>
+                            @endforeach
                         </select>
+                        @error('services')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="">Destinations</label>
-
                         <select name="destinations[]" class="form-select" multiple>
-                            {{-- <?php foreach ($destinations as $destination): ?>
-                                <option value="<?= $destination['destination_id'] ?>"><?= $destination['name'] ?>
-                                </option>
-                            <?php endforeach; ?> --}}
+                            @foreach ($destinations as $destination)
+                                <option value="{{ $destination->destination_id }}">{{ $destination->destination }}</option>
+                            @endforeach 
                         </select>
-
+                        @error('destinations')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Persons</label>
-                        <input type="number" name="persons" class="form-control">
+                        <input type="number" name="persons" class="form-control" value="{{ old('persons') }}">
+                        @error('persons')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Price</label>
-                        <input type="number" name="price" class="form-control">
+                        <input type="number" name="price" class="form-control" value="{{ old('price') }}">
+                        @error('price')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Start Date</label>
-                        <input type="date" name="start_date" class="form-control">
+                        <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}">
+                        @error('start_date')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">End Date</label>
-                        <input type="date" name="end_date" class="form-control">
+                        <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}">
+                        @error('end_date')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Create Package</button>
                 </form>
+                
             </div>
         </div>
     </div>

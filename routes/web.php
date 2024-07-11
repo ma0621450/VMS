@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TravelAgencyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,6 +15,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/login', [SessionController::class, 'create'])->name('/login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
+
 
 //customers
 Route::get('/bookings', function () {
@@ -31,9 +33,15 @@ Route::get('/package', function () {
 
 //travel agency
 
-Route::get('/agency/packages', function () {
-    return view('agency.packages');
-});
+
+
+Route::get('/agency/packages', [TravelAgencyController::class, 'create'])->name('agency.packages');
+Route::post('/agency/packages', [TravelAgencyController::class, 'store'])->name('agency.packages.store');
+
+
+
+
+
 Route::get('/agency/bookings', function () {
     return view('agency.bookings');
 });

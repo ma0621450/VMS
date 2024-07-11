@@ -17,11 +17,11 @@
             <div id="errorContainer" class="alert alert-danger pt-3" style="display:none;"></div>
             <div class="form-group mb-3">
                 <label for="email">Username:</label>
-                <input type="text" class="form-control" id="username" name="username">
+                <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}">
             </div>
             <div class="form-group mb-3">
                 <label for="email">Email address:</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
             </div>
             <div class="form-group mb-3">
                 <label for="pwd">Password:</label>
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group mb-3">
                 <label for="pwd">Phone Number:</label>
-                <input class="form-control" id="phone_number" name="phone_number"
+                <input class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number') }}"
                     >
             </div>
             <div class="input-group mb-3">

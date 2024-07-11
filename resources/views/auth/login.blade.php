@@ -16,7 +16,7 @@
             @endif
             <div class="form-group mb-3">
                 <label for="email">Email address:</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
             </div>
             <div class="form-group mb-3">
                 <label for="pwd">Password:</label>

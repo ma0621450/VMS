@@ -28,10 +28,12 @@ class SessionController extends Controller
 
         $user = Auth::user();
 
+
         Session::put([
             'user_id' => $user->id,
             'role_id' => $user->role_id,
         ]);
+
 
         $request->session()->regenerate();
 

@@ -19,15 +19,16 @@ class RegisteredUserController extends Controller
     {
         $attributes = $request->validate([
             'username' => ['required'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8'],
             'phone_number' => ['required', 'string', 'max:255'],
             'role_id' => ['required', 'integer']
         ]);
 
-        // $attributes['password'] = Hash::make($attributes['password']);
+        $attributes['password'] = Hash::make($attributes['password']);
 
         $user = User::create($attributes);
+
 
         if ($attributes['role_id'] == 2) {
             TravelAgency::create(['user_id' => $user->user_id]);
