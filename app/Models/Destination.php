@@ -8,8 +8,8 @@ class Destination extends Model
 {
     protected $primaryKey = 'destination_id';
 
-    public function vpDestinations()
+    public function vps()
     {
-        return $this->hasMany(VpDestination::class, 'destination_id', 'destination_id');
+        return $this->belongsToMany(Vp::class, 'vp_destinations', 'destination_id', 'vp_id');
     }
 }

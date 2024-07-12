@@ -3,10 +3,10 @@
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TravelAgencyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::view('/', 'customer.home');
 
 // Auth
 Route::get('/register', [RegisteredUserController::class, 'create']);
@@ -18,6 +18,13 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 
 //customers
+Route::get('/', [UserController::class, 'create']);
+Route::get('/package/single/{id}', [UserController::class, 'show'])->name('package.show');
+Route::post('/package/book/{id}', [UserController::class, 'book'])->name('package.book');
+Route::post('/user/inquiry/{id}', [UserController::class, 'inquiry'])->name('user.inquiry');
+Route::get('/user/inquiry', [UserController::class, 'inquiries'])->name('user.inquiry');
+Route::get('/user/bookings', [UserController::class, 'bookings'])->name('user.bookings');
+
 Route::get('/bookings', function () {
     return view('customer.bookings');
 });
@@ -27,20 +34,16 @@ Route::get('/inquiry', function () {
 Route::get('/profile', function () {
     return view('customer.profile');
 });
-Route::get('/package', function () {
-    return view('customer.package');
-});
+// Route::get('/package', function () {
+//     return view('customer.package');
+// });
 
 //travel agency
-
-
-
 Route::get('/agency/packages', [TravelAgencyController::class, 'create'])->name('agency.packages');
 Route::post('/agency/packages', [TravelAgencyController::class, 'store'])->name('agency.packages.store');
-
-
-
-
+Route::get('/package/{id}', [TravelAgencyController::class, 'edit'])->name('package.edit');
+Route::put('/package/{id}', [TravelAgencyController::class, 'update'])->name('agency.packages.update');
+Route::delete('/packages/{vp_id}', [TravelAgencyController::class, 'destroy'])->name('package.destroy');
 
 Route::get('/agency/bookings', function () {
     return view('agency.bookings');

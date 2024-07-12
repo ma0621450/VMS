@@ -12,25 +12,25 @@
         </tr>
     </thead>
     <tbody>
-        {{-- <?php foreach ($bookings as $booking): ?>
-            <tr id="booking-<?php echo $booking['id']; ?>">
-                <td><?php echo $booking['id']; ?></td>
-                <td><?php echo $booking['vacation_title']; ?></td>
-                <td><?php echo $booking['start_date']; ?></td>
-                <td><?php echo $booking['end_date']; ?></td>
-                <td>$<?php echo $booking['price']; ?></td>
-                <td><a href="package?vp_id=<?php echo $booking['vp_id']; ?>">View Package</a></td>
+        @forelse ($bookings as $booking)
+            <tr id="booking-{{ $booking->id }}">
+                <td>{{ $booking->booking_id }}</td>
+                <td>{{ $booking->vacation_title }}</td>
+                <td>{{ $booking->start_date }}</td>
+                <td>{{ $booking->end_date }}</td>
+                <td>${{ $booking->price }}</td>
+                <td><a href="{{ route('package.show', $booking->vp_id) }}">View Package</a></td>
                 <td>
-                    <button class="btn btn-danger delete-booking"
-                        data-booking-id="<?php echo $booking['id']; ?>">Delete</button>
+                    <button class="btn btn-danger delete-booking" data-booking-id="{{ $booking->id }}">Delete</button>
                 </td>
             </tr>
-        <?php endforeach; ?>
-        <?php if (empty($bookings)): ?>
-            <h1>No Bookings</h1>
-        <?php endif ?> --}}
+        @empty
+            <tr>
+                <td colspan="7" class="text-center"><h1>No Bookings</h1></td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 
 <x-footer></x-footer>
-{{-- <script src="public/js/customer/bookings.js"></script> --}}
+{{-- <script src="{{ asset('js/customer/bookings.js') }}"></script> --}}

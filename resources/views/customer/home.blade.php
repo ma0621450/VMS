@@ -23,28 +23,27 @@
     </div>
 </div>
 
-{{-- <div class="packages-cards d-flex flex-wrap justify-content-center" id="packagesContainer">
-    < foreach ($packages as $package) { ?>
-        <div class="m-4 border rounded border-muted package-card" data-price="< echo $package['price']; ?>"
-            data-start-date="< echo $package['start_date']; ?>" data-end-date="< echo $package['end_date']; ?>"
+<div class="packages-cards d-flex flex-wrap justify-content-center text-center" id="packagesContainer">
+    @foreach ($vp as $package)
+        <div class="m-4 border rounded border-muted package-card" data-price="{{ $package->price }}"
+            data-start-date="{{ $package->start_date }}" data-end-date="{{ $package->end_date }}"
             style="width: 25rem;">
             <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f5/de/london.jpg?w=1400&h=1400&s=1"
                 class="card-img-top" alt="...">
             <div class="card-body p-2">
-                <h5 class="card-title">< echo $package['title']; ?></h5>
-                <p class="card-text limited-description">< echo $package['description']; ?></p>
-                <h6>$< echo $package['price']; ?></h6>
+                <h5 class="card-title">{{ $package->title }}</h5>
+                <p class="card-text limited-description">{{ $package->description }}</p>
+                <h6>Price: ${{ $package->price }}</h6>
                 <div class="fw-bold text-center mb-3">
-                    <span class="">From < echo $package['start_date']; ?></span> -
-                    < echo $package['end_date']; ?><span></span>
+                    <span>From {{ $package->start_date }}</span> - {{ $package->end_date }}<span></span>
                 </div>
-                <a href="package?vp_id=<echo $package['vp_id']; ?>" type="button" class="btn btn-primary">
+                <a href="{{route('package.show', $package->vp_id)}}" type="button" class="btn btn-primary">
                     View More Details
                 </a>
             </div>
         </div>
-    < } ?>
-</div> --}}
+    @endforeach
+</div>
 
 <div class="container-xxl py-5">
     <div class="container">

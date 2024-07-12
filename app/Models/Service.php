@@ -8,8 +8,8 @@ class Service extends Model
 {
     protected $primaryKey = 'service_id';
 
-    public function vpServices()
+    public function vps()
     {
-        return $this->hasMany(VpService::class, 'service_id', 'service_id');
+        return $this->belongsToMany(Vp::class, 'vp_services', 'service_id', 'vp_id');
     }
 }

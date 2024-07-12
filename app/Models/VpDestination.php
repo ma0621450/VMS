@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VpDestination extends Model
 {
+    protected $guarded = [];
     protected $primaryKey = 'vp_destination_id';
 
     public function vp()

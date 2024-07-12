@@ -5,22 +5,22 @@
     </button>
 </div>
 <div class="packages-cards d-flex flex-wrap justify-content-center">
-    {{-- <?php foreach ($packages as $package): ?>
+    @foreach ($vp as $package)
 
-        <div class="m-4 rounded border-muted border-2" style="width: 22rem;">
+             <div class="m-4 rounded border-muted border-2" style="width: 22rem;">
             <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f5/de/london.jpg?w=1400&h=1400&s=1"
                 class="card-img-top" alt="...">
             <div class="card-body p-2">
-                <a href="single_package?vp_id=<?php echo $package['vp_id']; ?>" class="card-link">
+                <a href="{{ route('package.edit', $package->vp_id) }}" class="card-link">
                     <h5 class="card-title text-decoration-underline"><?php echo $package['title']; ?></h5>
                 </a>
-                <p class="card-text limited-description"><?php echo $package['description']; ?></p>
-                <p class="text-secondary">Price: $<?php echo $package['price']; ?></p>
+                <h6 class="card-text limited-description"><?php echo $package['description']; ?></p>
+                <h6 class="text-secondary">Price: $<?php echo $package['price']; ?></p>
+                    <h6 class="text-secondary">Date: {{   $package['start_date']}} - {{  $package['end_date']}}</h6>
             </div>
         </div>
-
-    <?php endforeach; ?>
-</div> --}}
+    @endforeach
+</div>
 
 
 

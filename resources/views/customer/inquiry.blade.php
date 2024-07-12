@@ -10,33 +10,32 @@
         </tr>
     </thead>
     <tbody>
-      {{--   
-        <?php foreach ($inquiries as $inquiry) { ?>
-            <tr class="text-center" id="inquiry-<?php echo htmlspecialchars($inquiry['id']); ?>">
-                <td><?php echo htmlspecialchars($inquiry['id']); ?></td>
-                <td><?php echo htmlspecialchars($inquiry['subject']); ?></td>
-                <td><?php echo htmlspecialchars($inquiry['message']); ?></td>
+        @forelse ($inquiries as $inquiry)
+            <tr class="text-center" id="inquiry-{{ $inquiry->id }}">
+                <td>{{ $inquiry->inquiry_id }}</td>
+                <td>{{ $inquiry->subject }}</td>
+                <td>{{ $inquiry->message }}</td>
                 <td>
-                    <?php if (!$inquiry['response']) { ?>
+                    @if (!$inquiry->response)
                         <span class="text-secondary">No Response</span>
-                    <?php } else { ?>
-                        <span class="fw-bold"><?php echo htmlspecialchars($inquiry['response']); ?></span>
-                    <td>
-                        <form class="d-inline delete-inquiry-form"
-                            data-inquiry-id="<?php echo htmlspecialchars($inquiry['id']); ?>">
-                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        </form>
-                    </td>
-                <?php } ?>
+                    @else
+                        <span class="fw-bold">{{ $inquiry->response }}</span>
+                    @endif
+                </td>
+                <td>
+                    <form class="d-inline delete-inquiry-form"
+                        data-inquiry-id="{{ $inquiry->id }}">
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    </form>
                 </td>
             </tr>
-        <?php } ?>
-        {{  if (empty($inquiries)): }}
-            <h3>No Inquiries</h3>
-        <?php endif ?>
-        --}}
+        @empty
+            <tr>
+                <td colspan="5" class="text-center"><h3>No Inquiries</h3></td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 
 <x-footer></x-footer>
-{{-- <script src="public/js/customer/inquiry.js"></script> --}}
+{{-- <script src="{{ asset('js/customer/inquiry.js') }}"></script> --}}

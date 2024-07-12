@@ -100,10 +100,10 @@
                             @endif
                           @if ($role_id === 3)
                             <li class="nav-item">
-                                <a class="nav-item nav-link active" aria-current="page" href="/bookings">Bookings</a>
+                                <a class="nav-item nav-link active" aria-current="page" href="{{ route('user.bookings') }}">Bookings</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-item nav-link active" aria-current="page" href="/inquiry">Inquiries</a>
+                                <a class="nav-item nav-link active" aria-current="page" href="{{ route('user.inquiry') }}">Inquiries</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-item nav-link active" aria-current="page" href="/profile">Your Profile</a>

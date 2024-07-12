@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VpService extends Model
 {
+    protected $guarded = [];
     protected $primaryKey = 'vp_service_id';
 
     public function vp()
