@@ -1,14 +1,5 @@
 <x-header></x-header>
 
-@php
-/*
-$totalRevenue = 0;
-foreach ($bookings as $booking) {
-    $totalRevenue += $booking['price'];
-}
-*/
-@endphp
-
 <div class="container mt-5">
     <table class="table table-bordered table-secondary table-striped">
         <thead>
@@ -22,28 +13,30 @@ foreach ($bookings as $booking) {
             </tr>
         </thead>
         <tbody>
-            {{-- 
             @foreach ($bookings as $booking)
-                <tr class="text-center" id="booking-{{ $booking['id'] }}">
-                    <td>{{ $booking['id'] }}</td>
-                    <td>{{ $booking['title'] }}</td>
-                    <td>{{ $booking['start_date'] }}</td>
-                    <td>{{ $booking['end_date'] }}</td>
-                    <td>${{ $booking['price'] }}</td>
+                <tr class="text-center" id="booking-{{ $booking->id }}">
+                    <td>{{ $booking->booking_id }}</td>
+                    <td>{{ $booking->vp->title }}</td>
+                    <td>{{ $booking->start_date }}</td>
+                    <td>{{ $booking->end_date }}</td>
+                    <td>${{ $booking->price }}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="deleteAgencyBooking(event, {{ $booking['id'] }})">Cancel</button>
+                        <form action="{{ route('agency.booking.cancel', $booking->booking_id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
 
-            @if (empty($bookings))
+            @if ($bookings->isEmpty())
                 <tr>
                     <td colspan="6" class="text-center">
                         <h3>No Bookings</h3>
                     </td>
                 </tr>
-            @endif 
-            --}}
+            @endif
         </tbody>
     </table>
 </div>
@@ -52,15 +45,16 @@ foreach ($bookings as $booking) {
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                {{-- <h5>Number of Bookings: <span id="bookingCount">{{ count($bookings) }}</span></h5> --}}
+                <h5>Number of Bookings: <span id="bookingCount">{{ $bookings->count() }}</span></h5>
             </div>
             <div class="col">
-                {{-- <h5>Total Revenue: $<span id="totalRevenue">{{ number_format($totalRevenue, 2) }}</span></h5> --}}
+                @php
+                    $totalRevenue = $bookings->sum('price');
+                @endphp
+                <h5>Total Revenue: $<span id="totalRevenue">{{ $totalRevenue  }}</span></h5>
             </div>
         </div>
     </div>
 </div>
 
 <x-footer></x-footer>
-
-{{-- <script src="public/js/agency/bookings.js"></script> --}}

@@ -18,25 +18,17 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 
 //customers
-Route::get('/', [UserController::class, 'create']);
+Route::get('/', [UserController::class, 'create'])->name('user.home');
 Route::get('/package/single/{id}', [UserController::class, 'show'])->name('package.show');
-Route::post('/package/book/{id}', [UserController::class, 'book'])->name('package.book');
-Route::post('/user/inquiry/{id}', [UserController::class, 'inquiry'])->name('user.inquiry');
 Route::get('/user/inquiry', [UserController::class, 'inquiries'])->name('user.inquiry');
+Route::post('/user/inquiry/{id}', [UserController::class, 'inquiry'])->name('user.inquiry.create');
+Route::delete('/user/inquiry/{id}', [UserController::class, 'deleteInquiry'])->name('user.inquiry.delete');
 Route::get('/user/bookings', [UserController::class, 'bookings'])->name('user.bookings');
+Route::post('/package/book/{id}', [UserController::class, 'book'])->name('package.book');
+Route::delete('/user/bookings/{id}', [UserController::class, 'deleteBooking'])->name('package.booking.delete');
+Route::view('/profile', 'customer.profile');
+Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
-Route::get('/bookings', function () {
-    return view('customer.bookings');
-});
-Route::get('/inquiry', function () {
-    return view('customer.inquiry');
-});
-Route::get('/profile', function () {
-    return view('customer.profile');
-});
-// Route::get('/package', function () {
-//     return view('customer.package');
-// });
 
 //travel agency
 Route::get('/agency/packages', [TravelAgencyController::class, 'create'])->name('agency.packages');
@@ -45,15 +37,13 @@ Route::get('/package/{id}', [TravelAgencyController::class, 'edit'])->name('pack
 Route::put('/package/{id}', [TravelAgencyController::class, 'update'])->name('agency.packages.update');
 Route::delete('/packages/{vp_id}', [TravelAgencyController::class, 'destroy'])->name('package.destroy');
 
-Route::get('/agency/bookings', function () {
-    return view('agency.bookings');
-});
-Route::get('/agency/inquiry', function () {
-    return view('agency.inquiry');
-});
-Route::get('/agency/profile', function () {
-    return view('agency.profile');
-});
+Route::get('/agency/bookings', [TravelAgencyController::class, 'getBookings'])->name('agency.bookings');
+Route::delete('/agency/bookings/{id}', [TravelAgencyController::class, 'cancelBookings'])->name('agency.booking.cancel');
+Route::get('/agency/inquiry', [TravelAgencyController::class, 'getInquiries'])->name('agency.inquiries');
+Route::post('/agency/inquiry/respond', [TravelAgencyController::class, 'respondToInquiry'])->name('agency.inquiry.respond');
+Route::get('/agency/profile', [TravelAgencyController::class, 'showProfileForm'])->name('agency.profile');
+Route::post('/agency/profile', [TravelAgencyController::class, 'updateProfile'])->name('agency.profile.update');
+Route::put('/agency/password', [TravelAgencyController::class, 'updatePassword'])->name('agency.password.update');
 
 
 

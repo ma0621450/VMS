@@ -21,7 +21,11 @@
                 <td>${{ $booking->price }}</td>
                 <td><a href="{{ route('package.show', $booking->vp_id) }}">View Package</a></td>
                 <td>
-                    <button class="btn btn-danger delete-booking" data-booking-id="{{ $booking->id }}">Delete</button>
+                      <form action="{{ route('package.booking.delete', $booking->booking_id) }}" method="POST" class="d-inline delete-booking-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                    </form>
                 </td>
             </tr>
         @empty

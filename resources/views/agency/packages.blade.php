@@ -7,7 +7,7 @@
 <div class="packages-cards d-flex flex-wrap justify-content-center">
     @foreach ($vp as $package)
 
-             <div class="m-4 rounded border-muted border-2" style="width: 22rem;">
+             <div class="m-4 rounded border border-muted border-2" style="width: 22rem;">
             <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f5/de/london.jpg?w=1400&h=1400&s=1"
                 class="card-img-top" alt="...">
             <div class="card-body p-2">

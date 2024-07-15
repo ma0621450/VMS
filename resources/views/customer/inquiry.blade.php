@@ -1,4 +1,6 @@
 <x-header></x-header>
+@php
+@endphp
 <table class="table">
     <thead>
         <tr class="text-center">
@@ -23,8 +25,9 @@
                     @endif
                 </td>
                 <td>
-                    <form class="d-inline delete-inquiry-form"
-                        data-inquiry-id="{{ $inquiry->id }}">
+                  <form action="{{ route('user.inquiry.delete', $inquiry->inquiry_id) }}" method="POST" class="d-inline delete-inquiry-form">
+                        @csrf
+                        @method('DELETE')
                         <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>

@@ -1,26 +1,26 @@
 <x-header></x-header>
 <div class="container mt-5">
-    <div class="row mb-4">
+    <form action="{{ route('user.home') }}" method="GET" class="row mb-4">
         <div class="col-md-3">
-            <select id="sortPrice" class="form-control">
+            <select name="sortPrice" class="form-control">
                 <option value="">Sort by Price</option>
-                <option value="asc">Low to High</option>
-                <option value="desc">High to Low</option>
+                <option value="asc" {{ request('sortPrice') == 'asc' ? 'selected' : '' }}>Low to High</option>
+                <option value="desc" {{ request('sortPrice') == 'desc' ? 'selected' : '' }}>High to Low</option>
             </select>
         </div>
         <div class="col-md-2">
-            <input type="date" id="startDate" class="form-control" placeholder="Start Date">
+            <input type="date" name="startDate" class="form-control" placeholder="Start Date" value="{{ request('startDate') }}">
         </div>
         <div class="col-md-2">
-            <input type="date" id="endDate" class="form-control" placeholder="End Date">
-        </div>
-        <div class="col-md-2">
-            <button id="filterDate" class="btn btn-primary">Filter</button>
+            <input type="date" name="endDate" class="form-control" placeholder="End Date" value="{{ request('endDate') }}">
         </div>
         <div class="col-md-3">
-            <input type="text" id="searchTitle" class="form-control" placeholder="Search by Title">
+            <input type="text" name="searchTitle" class="form-control" placeholder="Search by Title" value="{{ request('searchTitle') }}">
         </div>
-    </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
 </div>
 
 <div class="packages-cards d-flex flex-wrap justify-content-center text-center" id="packagesContainer">
@@ -43,6 +43,10 @@
             </div>
         </div>
     @endforeach
+    <div class="pagination-links">
+    {{ $vp->links() }}
+</div>
+
 </div>
 
 <div class="container-xxl py-5">

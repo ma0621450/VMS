@@ -9,12 +9,39 @@ use App\Models\Service;
 use App\Models\Vp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $vp = Vp::all();
+        $query = Vp::query();
+
+        if ($request->has('sortPrice')) {
+            $sortPrice = $request->input('sortPrice');
+            if (in_array($sortPrice, ['asc', 'desc'])) {
+                $query->orderBy('price', $sortPrice);
+            }
+        }
+
+        if ($request->filled('startDate')) {
+            $startDate = $request->input('startDate');
+            $query->where('start_date', '>=', $startDate);
+        }
+
+        if ($request->filled('endDate')) {
+            $endDate = $request->input('endDate');
+            $query->where('end_date', '<=', $endDate);
+        }
+
+        if ($request->filled('searchTitle')) {
+            $searchTitle = $request->input('searchTitle');
+            $query->where('title', 'like', '%' . $searchTitle . '%');
+        }
+
+        $vp = $query->latest()->paginate(3);
+
         $services = Service::all();
         $destinations = Destination::all();
 
@@ -81,5 +108,49 @@ class UserController extends Controller
         $inquiries = Inquiry::where('customer_id', $customer_id)->get();
 
         return view('customer.inquiry', compact('inquiries'));
+    }
+    public function deleteInquiry($id)
+    {
+        $user = Auth::user();
+        $customer_id = $user->customer->customer_id;
+
+        $inquiry = Inquiry::where('inquiry_id', $id)
+            ->where('customer_id', $customer_id);
+
+        $inquiry->delete();
+        return redirect()->back();
+    }
+    public function deleteBooking($id)
+    {
+        $user = Auth::user();
+        $customer_id = $user->customer->customer_id;
+
+        $inquiry = Booking::where('booking_id', $id)
+            ->where('customer_id', $customer_id);
+
+        $inquiry->delete();
+        return redirect()->back();
+    }
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if (!Hash::check($request->input('old_password'), $user->password)) {
+            return redirect()->back()->withErrors(['old_password' => 'The provided password does not match our records.']);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return redirect()->route('user.profile.update')->with('success', 'Profile updated successfully');
     }
 }

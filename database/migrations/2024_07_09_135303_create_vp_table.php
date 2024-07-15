@@ -62,6 +62,7 @@ return new class extends Migration {
             $table->foreignId('vp_id')->constrained('vp', 'vp_id')->onDelete('cascade');
             $table->string('subject');
             $table->text('message');
+            $table->text('response')->nullable();
             $table->timestamps();
         });
     }

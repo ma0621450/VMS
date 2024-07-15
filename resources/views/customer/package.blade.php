@@ -124,7 +124,7 @@
             </div>
             <div class="modal-body">
                 <div id="errorContainer" class="alert alert-danger" style="display:none;"></div>
-                <form id="inquiryForm" action="{{ route('user.inquiry', $package->vp_id) }}" method="POST">
+                <form id="inquiryForm" action="{{ route('user.inquiry.create', $package->vp_id) }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Subject:</label>
@@ -134,7 +134,7 @@
                         <label class="form-label">Message:</label>
                         <textarea type="text" rows="5" name="message" class="form-control"></textarea>
                     </div>
-                    <button class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
