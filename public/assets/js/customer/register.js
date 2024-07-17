@@ -1,42 +1,43 @@
 $(document).ready(function () {
-    $("#updatePackageForm").on("submit", function (e) {
+    $("#regForm").on("submit", function (e) {
         e.preventDefault();
-
-        let form = $(this);
-        let formData = form.serialize();
+        let form = $(this).serialize();
 
         $.ajax({
-            url: form.attr("action"),
-            method: "POST",
-            data: formData,
+            url: "register",
+            method: "post",
+            data: form,
+            dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    console.log("Package Updated successfully!");
-                    window.location.reload();
+                    alert(response.message);
+                    window.location.href = "/login";
                 } else {
-                    console.error("Unexpected response format.");
+                    $("#errorContainer").html("");
+                    for (let error in response.errors) {
+                        $("#errorContainer").append(
+                            "<p>" + response.errors[error] + "</p>"
+                        );
+                    }
+                    $("#errorContainer").show();
                 }
             },
             error: function (xhr) {
-                handleErrors(xhr);
+                $("#errorContainer").html("");
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let error in errors) {
+                        $("#errorContainer").append(
+                            "<p>" + errors[error] + "</p>"
+                        );
+                    }
+                } else {
+                    $("#errorContainer").html(
+                        "<p>An unexpected error occurred. Please try again.</p>"
+                    );
+                }
+                $("#errorContainer").show();
             },
         });
     });
-
-    function handleErrors(xhr) {
-        $("#errorContainer").html("");
-
-        if (xhr.responseJSON && xhr.responseJSON.errors) {
-            let errors = xhr.responseJSON.errors;
-            $.each(errors, function (key, value) {
-                $("#errorContainer").append("<p>" + value + "</p>");
-            });
-        } else {
-            $("#errorContainer").html(
-                "<p>An unexpected error occurred. Please try again.</p>"
-            );
-        }
-
-        $("#errorContainer").show();
-    }
 });

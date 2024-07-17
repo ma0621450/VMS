@@ -193,11 +193,9 @@ class TravelAgencyController extends Controller
             $travelAgency->travel_agency_name = $request->agency_name;
             $travelAgency->travel_agency_description = $request->agency_desc;
             $travelAgency->save();
-        } else {
-            dd('failed');
         }
 
-        return redirect()->back();
+        return response()->json(['message' => 'Profile updated successfully'], 200);
     }
 
 
@@ -219,7 +217,7 @@ class TravelAgencyController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect()->back();
+        return response()->json(['message' => 'Password updated successfully'], 200);
     }
 }
 

@@ -39,14 +39,12 @@ return new class extends Migration {
             $table->id('vp_service_id');
             $table->foreignId('vp_id')->constrained('vp', 'vp_id')->onDelete('cascade');
             $table->foreignId('service_id')->constrained('services', 'service_id');
-            $table->timestamps();
         });
 
         Schema::create('vp_destinations', function (Blueprint $table) {
             $table->id('vp_destination_id');
             $table->foreignId('vp_id')->constrained('vp', 'vp_id')->onDelete('cascade');
             $table->foreignId('destination_id')->constrained('destinations', 'destination_id');
-            $table->timestamps();
         });
 
         Schema::create('bookings', function (Blueprint $table) {

@@ -79,7 +79,7 @@
     <a class="nav-item nav-link active" aria-current="page" href="/admin/services">Add Services</a>
 </li>
 <li class="nav-item">
-    <a class="nav-item nav-link active" aria-current="page" href="/admin/destinations">All
+    <a class="nav-item nav-link active" aria-current="page" href="/admin/destinations">Add
         Destinations</a>
     </li>
     @endif

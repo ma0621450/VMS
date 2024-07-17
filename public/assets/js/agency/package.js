@@ -24,7 +24,7 @@ $(document).ready(function () {
     });
 
     function handleErrors(xhr) {
-        $("#errorContainer").html(""); // Clear previous errors
+        $("#errorContainer").html("");
 
         if (xhr.responseJSON && xhr.responseJSON.errors) {
             let errors = xhr.responseJSON.errors;
@@ -37,6 +37,6 @@ $(document).ready(function () {
             );
         }
 
-        $("#errorContainer").show(); // Show error messages
+        $("#errorContainer").show();
     }
 });

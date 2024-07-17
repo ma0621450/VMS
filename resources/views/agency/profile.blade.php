@@ -17,16 +17,17 @@
         </div>
     @endif
 
-    <form action="{{ route('agency.profile.update') }}" class="border p-3" method="POST">
-        @csrf
-        <label for="agency_name">Travel Agency Name</label>
-        <input name="agency_name" class="form-control mb-3" type="text" value="{{ old('agency_name', $formValues['agency_name'] ?? '') }}" />
+    <form id="profile-update-form" action="{{ route('agency.profile.update') }}" class="border p-3" method="POST">
+    @csrf
+    <label for="agency_name">Travel Agency Name</label>
+    <input name="agency_name" id="agency_name" class="form-control mb-3" type="text" value="{{ old('agency_name', $formValues['agency_name'] ?? '') }}" />
 
-        <label for="agency_desc">About Agency</label>
-        <textarea rows="5" name="agency_desc" class="form-control mb-3">{{ old('agency_desc', $formValues['agency_desc'] ?? '') }}</textarea>
+    <label for="agency_desc">About Agency</label>
+    <textarea rows="5" name="agency_desc" id="agency_desc" class="form-control mb-3">{{ old('agency_desc', $formValues['agency_desc'] ?? '') }}</textarea>
 
-        <button class="btn btn-success" type="submit">Submit</button>
-    </form>
+    <button id="profile-update-btn" class="btn btn-success" type="submit">Submit</button>
+</form>
+
 </div>
 
 <div style="padding-bottom: 100px;" class="container w-50">
@@ -48,7 +49,7 @@
         </div>
     @endif
 
-    <form action="{{ route('agency.password.update') }}" class="border p-3" method="POST">
+    <form id="password-update-form" action="{{ route('agency.password.update') }}" class="border p-3" method="POST">
         @csrf
         @method('PUT')
         <label for="old_password">Current Password</label>
@@ -65,3 +66,4 @@
 </div>
 
 <x-footer></x-footer>
+<script src="{{ asset('assets/js/agency/profile.js') }}"></script>
