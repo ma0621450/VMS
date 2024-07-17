@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Destination extends Model
 {
     protected $primaryKey = 'destination_id';
+    protected $guarded = [];
 
     public function vps()
     {

@@ -41,4 +41,4 @@
 </table>
 
 <x-footer></x-footer>
-{{-- <script src="{{ asset('js/customer/inquiry.js') }}"></script> --}}
+<script src="{{ asset('assets/js/customer/inquiry.js') }}"></script>

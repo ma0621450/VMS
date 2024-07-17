@@ -43,10 +43,9 @@
             </div>
         </div>
     @endforeach
-    <div class="pagination-links">
-    {{ $vp->links() }}
 </div>
-
+<div class="pagination-links">
+    {{ $vp->links() }}
 </div>
 
 <div class="container-xxl py-5">

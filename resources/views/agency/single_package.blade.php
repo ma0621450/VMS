@@ -56,7 +56,7 @@
 <x-footer></x-footer>
 
 {{-- MODEL --}}
-<div class="modal fade @if ($errors->any()) show @endif" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="@if (!$errors->any()) true @else false @endif" style="@if ($errors->any()) display: block; @endif">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,15 +67,9 @@
                 <form id="updatePackageForm"  action="{{ route('agency.packages.update', $package->vp_id) }}" method="POST">
                     @csrf
                     @method('PUT')
-                                      @if ($errors->any())
-                <div id="errorContainer" class="alert alert-danger pt-3">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+               <div id="errorContainer" class="alert alert-danger pt-3" style="display: none;">
+                        <ul></ul>
+                    </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Title</label>
                         <input type="text" name="title" class="form-control" value="{{ old('title', $package->title) }}">
@@ -122,3 +116,4 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('assets/js/agency/package.js') }}"></script>

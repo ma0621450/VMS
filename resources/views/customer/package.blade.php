@@ -123,23 +123,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="errorContainer" class="alert alert-danger" style="display:none;"></div>
-                <form id="inquiryForm" action="{{ route('user.inquiry.create', $package->vp_id) }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Subject:</label>
-                        <input type="text" name="subject" class="form-control" id="exampleInputEmail1"></input>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Message:</label>
-                        <textarea type="text" rows="5" name="message" class="form-control"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+              <form id="inquiryForm" action="{{ route('user.inquiry.create', $package->vp_id) }}" method="POST">
+    @csrf
+<div id="errorContainer" class="alert alert-danger" style="display: none;"></div>
+
+    <div class="mb-3">
+        <label for="subject" class="form-label">Subject:</label>
+        <input type="text" id="subject" name="subject" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Message:</label>
+        <textarea id="message" name="message" rows="5" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+</form>
+
             </div>
         </div>
     </div>
 </div>
 
 
-<script src="public/js/customer/package.js"></script>
+<script src="{{ asset(  'assets/js/customer/package.js') }}"></script>

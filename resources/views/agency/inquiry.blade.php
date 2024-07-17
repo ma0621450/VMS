@@ -19,7 +19,7 @@
                     <td>{{ $inquiry->message }}</td>
                     <td class="response-column">
                         @if (!$inquiry->response)
-                            <form action="{{ route('agency.inquiry.respond') }}" method="POST" class="d-flex flex-column align-items-center justify-content-center w-auto">
+                            <form action="{{ route('agency.inquiry.respond') }}" method="POST" class="response-form d-flex flex-column align-items-center justify-content-center w-auto">
                                 @csrf
                                 <input type="hidden" name="inquiry_id" value="{{ $inquiry->inquiry_id }}">
                                 <textarea class="form-control response-textarea" rows="1" name="response"></textarea>
@@ -48,3 +48,5 @@
 </div>
 
 <x-footer></x-footer>
+
+<script src="{{ asset('assets/js/agency/inquiry.js') }}"></script>

@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8'],
             'phone_number' => ['required', 'string', 'max:255'],
-            'role_id' => ['required', 'integer']
+            'role_id' => ['required']
         ]);
 
         $attributes['password'] = Hash::make($attributes['password']);
@@ -36,6 +36,9 @@ class RegisteredUserController extends Controller
             Customer::create(['user_id' => $user->user_id]);
         }
 
-        return redirect('/login');
+        return response()->json([
+            'success' => true,
+            'message' => 'Registration successful! Please login.'
+        ]);
     }
 }

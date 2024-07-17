@@ -52,7 +52,7 @@ class UserController extends Controller
         $user = Auth::user();
         $package = Vp::find($vp_id);
         $services = $package->services;
-        $destinations = Destination::all();
+        $destinations = $package->destinations;
         $travel_agency = $package->travelAgency;
         $customer_id = $user->customer->customer_id;
         $booking = Booking::where('customer_id', $customer_id)
@@ -70,7 +70,7 @@ class UserController extends Controller
         $booking->vp_id = $vp_id;
         $booking->save();
 
-        return redirect()->back()->with('success', 'Booking successful!');
+        return redirect('/user/bookings');
     }
     public function inquiry(Request $request, $vp_id)
     {
@@ -87,7 +87,7 @@ class UserController extends Controller
         $inquiry->message = $validated['message'];
         $inquiry->save();
 
-        return redirect()->back()->with('success', 'Inquiry sent successfully!');
+        return response()->json(['success' => true, 'message' => 'Inquiry sent successfully.']);
     }
     public function bookings()
     {
@@ -115,22 +115,34 @@ class UserController extends Controller
         $customer_id = $user->customer->customer_id;
 
         $inquiry = Inquiry::where('inquiry_id', $id)
-            ->where('customer_id', $customer_id);
+            ->where('customer_id', $customer_id)
+            ->first();
 
-        $inquiry->delete();
-        return redirect()->back();
+        if ($inquiry) {
+            $inquiry->delete();
+            return response()->json(['success' => true, 'message' => 'Inquiry deleted successfully.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Inquiry not found.']);
+        }
     }
-    public function deleteBooking($id)
+    public function deleteBooking(Request $request, $id)
     {
         $user = Auth::user();
         $customer_id = $user->customer->customer_id;
 
-        $inquiry = Booking::where('booking_id', $id)
-            ->where('customer_id', $customer_id);
+        $booking = Booking::where('booking_id', $id)
+            ->where('customer_id', $customer_id)
+            ->first();
 
-        $inquiry->delete();
-        return redirect()->back();
+        if (!$booking) {
+            return response()->json(['success' => false, 'message' => 'Booking not found.']);
+        }
+
+        $booking->delete();
+
+        return response()->json(['success' => true, 'message' => 'Booking deleted successfully.']);
     }
+
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
@@ -141,16 +153,16 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json(['success' => false, 'errors' => $validator->errors()]);
         }
 
         if (!Hash::check($request->input('old_password'), $user->password)) {
-            return redirect()->back()->withErrors(['old_password' => 'The provided password does not match our records.']);
+            return response()->json(['success' => false, 'errors' => ['old_password' => 'The provided password does not match our records.']]);
         }
 
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
 
-        return redirect()->route('user.profile.update')->with('success', 'Profile updated successfully');
+        return response()->json(['success' => true, 'message' => 'Password updated successfully.']);
     }
 }

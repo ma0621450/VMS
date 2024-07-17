@@ -105,7 +105,7 @@ class TravelAgencyController extends Controller
 
         $package->destinations()->attach($validated['destinations']);
 
-        return redirect()->back();
+        return response()->json(['success' => true, 'message' => 'Package Updated successfully.']);
     }
     public function destroy($vp_id)
     {
@@ -133,11 +133,17 @@ class TravelAgencyController extends Controller
     }
     public function cancelBookings($id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->delete();
-        // dd($bookings);
-        return redirect()->back();
+        try {
+            $booking = Booking::findOrFail($id);
+            $price = $booking->vp->price;
+            $booking->delete();
+
+            return response()->json(['success' => true, 'price' => $price]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to cancel booking.'], 500);
+        }
     }
+
     public function getInquiries()
     {
         $travel_agency_id = Auth::user()->travelAgency->travel_agency_id;
@@ -153,13 +159,14 @@ class TravelAgencyController extends Controller
     {
         $request->validate([
             'inquiry_id' => 'required|exists:inquiries,inquiry_id',
-            'response' => 'required|string'
+            'response' => 'required|string',
         ]);
 
-        $inquiry = Inquiry::find($request->inquiry_id);
+        $inquiry = Inquiry::findOrFail($request->inquiry_id);
         $inquiry->response = $request->response;
         $inquiry->save();
-        return redirect()->back();
+
+        return response()->json(['success' => true]);
     }
     public function showProfileForm()
     {

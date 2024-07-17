@@ -70,7 +70,10 @@
 @if ($role_id === 1)
     
 <li class="nav-item">
-    <a class="nav-item nav-link active" aria-current="page" href="/admin">All Users</a>
+    <a class="nav-item nav-link active" aria-current="page" href="/admin/customers">Customers</a>
+</li>
+<li class="nav-item">
+    <a class="nav-item nav-link active" aria-current="page" href="/admin/agencies">Travel Agencies</a>
 </li>
 <li class="nav-item">
     <a class="nav-item nav-link active" aria-current="page" href="/admin/services">Add Services</a>

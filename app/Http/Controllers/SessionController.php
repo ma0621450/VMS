@@ -21,35 +21,39 @@ class SessionController extends Controller
         ]);
 
         if (!Auth::attempt($attributes)) {
-            throw ValidationException::withMessages([
-                'email' => 'Sorry, those credentials do not match.'
-            ]);
+            return response()->json([
+                'success' => false,
+                'errors' => ['email' => 'Sorry, those credentials do not match.']
+            ], 422);
         }
 
         $user = Auth::user();
-
 
         Session::put([
             'user_id' => $user->id,
             'role_id' => $user->role_id,
         ]);
 
-
         $request->session()->regenerate();
 
-        if ($user->role_id === 1) {
-            return redirect('/admin');
-        } else if ($user->role_id === 2) {
-            return redirect('/agency/packages');
-        } else if ($user->role_id === 3) {
-            return redirect('/');
-        }
+        $redirectUrl = match ($user->role_id) {
+            1 => route('admin.customers'),
+            2 => route('agency.packages'),
+            3 => route('user.home'),
+            default => route('user.home'),
+        };
+
+        return response()->json([
+            'success' => true,
+            'redirect' => $redirectUrl
+        ]);
     }
+
 
     public function destroy()
     {
         Auth::logout();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

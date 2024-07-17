@@ -3,17 +3,8 @@
 <div style="padding-top: 50px; padding-bottom: 50px;">
     <div class="d-flex flex-column border w-50 m-auto">
         <h1 class=" text-center text-bg-success p-3 rounded-2 fs-1">Register</h1>
-        <form class="w-100 d-flex flex-column m-auto mt-2 p-3" id="regForm" action="/register" method="POST">
+        <form class="w-100 d-flex flex-column m-auto mt-2 p-3" id="regForm">
             @csrf
-                  @if ($errors->any())
-                <div id="errorContainer" class="alert alert-danger pt-3">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div id="errorContainer" class="alert alert-danger pt-3" style="display:none;"></div>
             <div class="form-group mb-3">
                 <label for="email">Username:</label>
@@ -50,4 +41,4 @@
 <x-footer></x-footer>
 
 
-{{-- <script src="public/js/customer/register.js"></script> --}}
+<script src="{{ asset('assets/js/customer/register.js') }}"></script>

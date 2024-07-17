@@ -8,6 +8,7 @@ class Service extends Model
 {
     protected $primaryKey = 'service_id';
 
+    protected $guarded = [];
     public function vps()
     {
         return $this->belongsToMany(Vp::class, 'vp_services', 'service_id', 'vp_id');
