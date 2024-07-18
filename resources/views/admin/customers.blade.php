@@ -1,4 +1,5 @@
 <x-header></x-header>
+   <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 <h1 class="text-center">Customers</h1>

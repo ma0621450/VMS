@@ -55,14 +55,19 @@ Route::middleware(['checkrole:1'])->group(function () {
     Route::get('/admin/customers/get', [AdminController::class, 'getCustomers'])->name('admin.customers.get');
     Route::get('/admin/agencies', [AdminController::class, 'viewTravelAgencies'])->name('admin.travelAgencies');
     Route::get('/admin/agencies/get', [AdminController::class, 'getTravelAgencies'])->name('admin.travelAgencies.get');
+    Route::post('/admin/customers/block/{id}', [AdminController::class, 'blockUser'])->name('admin.customers.block');
+    Route::post('/admin/customers/unblock/{id}', [AdminController::class, 'unblockUser'])->name('admin.customers.unblock');
+    Route::post('/admin/agencies/block/{id}', [AdminController::class, 'blockUser'])->name('admin.agencies.block');
+    Route::post('/admin/agencies/unblock/{id}', [AdminController::class, 'unblockUser'])->name('admin.agencies.unblock');
+
 
     Route::get('/admin/services', [AdminController::class, 'viewServices'])->name('admin.service');
     Route::get('/admin/services/get', [AdminController::class, 'getServices'])->name('admin.service.get');
     Route::post('/admin/services', [AdminController::class, 'postService'])->name('admin.service.post');
-    Route::delete('/admin/services', [AdminController::class, 'deleteService'])->name('admin.service.delete');
+    Route::delete('/admin/services/{serviceId}', [AdminController::class, 'deleteService'])->name('admin.service.delete');
 
     Route::get('/admin/destinations', [AdminController::class, 'viewDestinations'])->name('admin.destination');
     Route::get('/admin/destinations/get', [AdminController::class, 'getDestinations'])->name('admin.destination.get');
     Route::post('/admin/destinations', [AdminController::class, 'postDestination'])->name('admin.destination.post');
-    Route::delete('/admin/destinations', [AdminController::class, 'deleteDestination'])->name('admin.destination.delete');
+    Route::delete('/admin/destinations/{id}', [AdminController::class, 'deleteDestination'])->name('admin.destination.delete');
 });

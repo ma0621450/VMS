@@ -1,12 +1,12 @@
 <x-header></x-header>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div class="container">
-
     <div class="d-flex flex-column border-2 w-50 m-auto pb-3">
         <h3 class="text-bg-success text-center p-2">Add Destination</h3>
-        <form class="m-auto w-75 d-flex flex-column" action="{{ route('admin.destination.post') }}" method="POST">
+        <form id="addDestinationForm" class="m-auto w-75 d-flex flex-column" action="{{ route('admin.destination.post') }}" method="POST">
             @csrf
-                                    @if ($errors->any())
+            @if ($errors->any())
                 <div id="errorContainer" class="alert alert-danger pt-3">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -15,8 +15,8 @@
                     </ul>
                 </div>
             @endif
-            <input class="form-control mb-3" type="text" name="destination">
-            <button class="btn btn-success w-50 p-2 m-auto" type="submit">Add</button>
+            <input id="destinationInput" class="form-control mb-3" type="text" name="destination" placeholder="Enter destination">
+            <button id="addDestinationBtn" class="btn btn-success w-50 p-2 m-auto" type="submit">Add</button>
         </form>
     </div>
 
@@ -31,6 +31,7 @@
                 </tr>
             </thead>
             <tbody class="text-center">
+                <!-- Table body content will be filled dynamically -->
             </tbody>
         </table>
     </div>

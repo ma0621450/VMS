@@ -1,4 +1,6 @@
 <x-header></x-header>
+   <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 <h1 class="text-center">Travel Agencies</h1>
 <table class="table table-bordered table-secondary table-striped" id="agenciesTable">

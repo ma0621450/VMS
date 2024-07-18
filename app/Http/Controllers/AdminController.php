@@ -25,25 +25,17 @@ class AdminController extends Controller
 
     public function getCustomers()
     {
-        $customers = User::where('role_id', 3)->get();
-        return DataTables::of($customers)
-            ->addColumn('action', function ($customer) {
-                return '<button class="btn btn-danger block-button">Block</button>';
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+        $customers = User::where('role_id', 3)->withTrashed()->get();
+        return response()->json(['data' => $customers]);
     }
+
+
+
+
     public function getTravelAgencies()
     {
-        $agencies = User::where('role_id', 2)->with('travelAgency')->get();
-        return DataTables::of($agencies)
-            ->addColumn('travel_agency_name', function ($agency) {
-                return $agency->travelAgency->travel_agency_name;
-            })
-            ->addColumn('action', function ($agency) {
-                return '<button class="btn btn-danger block-button">Block</button>';
-            })
-            ->make(true);
+        $agencies = User::where('role_id', 2)->with('travelAgency')->withTrashed()->get();
+        return response()->json(['data' => $agencies]);
     }
     public function viewServices()
     {
@@ -51,45 +43,97 @@ class AdminController extends Controller
     }
     public function getServices()
     {
-
         $services = Service::all();
+
         return DataTables::of($services)
             ->addColumn('action', function ($service) {
                 return '<button class="btn btn-danger delete-button">Delete</button>';
             })
+            ->rawColumns(['action'])
             ->make(true);
-
     }
+
     public function postService(Request $request)
     {
-        $service = $request->validate([
+        $request->validate([
             'service' => 'required|string|unique:services,service'
         ]);
-        $service = Service::create($service);
-        return redirect()->back();
+
+        $service = new Service();
+        $service->service = $request->input('service');
+        $service->save();
+
+        return response()->json(['message' => 'Service added successfully']);
     }
+
+
+    public function deleteService($serviceId)
+    {
+        try {
+            $service = Service::findOrFail($serviceId);
+            $service->delete();
+
+            return response()->json(['message' => 'Service deleted successfully']);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            \Log::error('Error deleting service: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Failed to delete service. Please try again.'], 500);
+        }
+    }
+
+
     public function viewDestinations()
     {
         return view('admin.destinations');
     }
+
     public function getDestinations()
     {
-
         $destinations = Destination::all();
-        return DataTables::of($destinations)
-            ->addColumn('action', function ($destination) {
-                return '<button class="btn btn-danger delete-button">Delete</button>';
-            })
-            ->make(true);
 
+        return response()->json(['destination' => $destinations]);
     }
+
+
     public function postDestination(Request $request)
     {
-        $destination = $request->validate([
+        $validatedData = $request->validate([
             'destination' => 'required|string|unique:destinations,destination'
         ]);
-        $destination = Destination::create($destination);
-        return redirect()->back();
+
+        $destination = Destination::create($validatedData);
+
+        return response()->json(['message' => 'Destination added successfully', 'destination' => $destination]);
     }
+
+    public function deleteDestination($id)
+    {
+        try {
+            $destination = Destination::findOrFail($id);
+            $destination->delete();
+
+            return response()->json(['message' => 'Destination deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete destination. Please try again.'], 500);
+        }
+    }
+
+
+
+    public function blockUser($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return response()->json(['message' => 'User blocked successfully']);
+    }
+
+    public function unblockUser($id)
+    {
+        $user = User::withTrashed()->find($id);
+        $user->restore();
+        return response()->json(['message' => 'User unblocked successfully']);
+    }
+
 }
 
